@@ -1,4 +1,4 @@
-# BankInsight — Banking Risk & Creditworthiness Analysis
+# BankInsight: Credit Risk Analysis
 
 **BankInsight** is a data-driven risk assessment system designed to analyze customer profiles and lending behaviours to evaluate creditworthiness and support safer lending decisions for financial institutions. The project performs exploratory data analysis (EDA), feature engineering, predictive-ready preparation, and dashboard-ready KPI calculations (Power BI). The deliverable is a reproducible Python notebook + Power BI-ready measures to help risk managers and business stakeholders.
 
