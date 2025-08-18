@@ -1,258 +1,123 @@
 # BankInsight: Credit Risk Analysis
 
-**BankInsight** is a data-driven risk assessment system designed to analyze customer profiles and lending behaviours to evaluate creditworthiness and support safer lending decisions for financial institutions. The project performs exploratory data analysis (EDA), feature engineering, predictive-ready preparation, and dashboard-ready KPI calculations (Power BI). The deliverable is a reproducible Python notebook + Power BI-ready measures to help risk managers and business stakeholders.
+**BankInsight** is a data-driven risk assessment system that analyzes customer profiles and lending behaviours to evaluate creditworthiness. The project performs exploratory data analysis (EDA), feature engineering, and prepares KPIs for Power BI dashboards. The deliverable is a reproducible Python notebook plus Power BI-ready measures to support informed lending decisions.
 
 ---
+## Dashboards
 
-## Table of Contents
+![Dashboard](https://github.com/exorcist09/BankInsight-Credit-Risk-Analysis/blob/main/PowerBI-Dashboard/DashBoard.png)
 
-* [Overview](#overview)
-* [Goals & Problem Statement](#goals--problem-statement)
-* [Dataset](#dataset)
-* [Project Structure](#project-structure)
-* [Tools & Technologies](#tools--technologies)
-* [Key Steps & Methodology](#key-steps--methodology)
+![Loan Analysis](https://github.com/exorcist09/BankInsight-Credit-Risk-Analysis/blob/main/PowerBI-Dashboard/Loan-Analysis.png)
 
-  * [Data Loading & Summary](#data-loading--summary)
-  * [Data Cleaning & Feature Engineering](#data-cleaning--feature-engineering)
-  * [Univariate & Bivariate Analysis](#univariate--bivariate-analysis)
-  * [Correlation Analysis](#correlation-analysis)
-  * [Power BI Measures & KPIs](#power-bi-measures--kpis)
-* [Example Code Snippets](#example-code-snippets)
-* [How to run](#how-to-run)
-* [Notebook & Files](#notebook--files)
-* [Insights & Business Impact](#insights--business-impact)
-* [Future Work](#future-work)
-* [Contributing](#contributing)
-* [License](#license)
-* [Contact](#contact)
+![Deposit Analysis](https://github.com/exorcist09/BankInsight-Credit-Risk-Analysis/blob/main/PowerBI-Dashboard/Deposit-Analysis.png)
 
 ---
-
 ## Overview
 
-This project focuses on building a foundational risk analytics workflow for banks:
+This project builds a foundational risk analytics workflow for banks:
 
-* Explore customer demographics and banking behaviour
-* Create features relevant to credit risk (income band, engagement length, fees)
-* Identify patterns and correlations that indicate default risk
-* Produce Power BI-ready KPI measures for management and risk teams
+- Explore customer demographics and banking behaviour  
+- Create features relevant to credit risk (income band, engagement length, fees)  
+- Identify patterns and correlations that indicate default risk  
+- Produce Power BI-ready KPI measures for management and risk teams  
 
-The analyses are intentionally modular so they can feed into scoring models (logistic regression, tree-based models) later.
-
----
-
-## Goals & Problem Statement
-
-Design and develop a comprehensive risk assessment system to analyze customer profiles and lending behaviours to evaluate creditworthiness. The system should:
-
-* Detect customers who are likely to default
-* Quantify risk using interpretable KPIs
-* Provide visual dashboards for informed lending decisions
-* Support continuous monitoring via derived features and measures
-
----
-
-## Dataset
-
-The dataset contains client banking information across several interlinked tables (or a single denormalized table depending on your export):
-
-* `Clients - Banking` (main transactional/profile table)
-* `Banking Relationship`
-* `Client-Banking`
-* `Gender` (lookup)
-* `Investment Advisor` (lookup)
-* `Period` (time dimensions)
-
-Common fields include: `Client ID`, `Estimated Income`, `Age`, `Nationality`, `Occupation`, `Bank Deposits`, `Checking Accounts`, `Saving Accounts`, `Credit Card Balance`, `Bank Loans`, `Business Lending`, `Joined Bank`, `Fee Structure`, `Properties Owned`, `Risk Weighting`.
-
----
-
-## Project Structure (suggested)
-
-```
-BankInsight/
-├─ data/
-│  ├─ bank_clients.csv
-│  └─ README_dataset.md
-├─ notebooks/
-│  ├─ 01_data_loading_and_eda.ipynb
-│  └─ 02_feature_engineering_and_kpis.ipynb
-├─ src/
-│  ├─ features.py
-│  └─ viz.py
-├─ powerbi/
-│  └─ BankInsight_PowerBI.pbix  # placeholder
-├─ requirements.txt
-└─ README.md
-```
+The analyses are modular to support predictive scoring models later.  
 
 ---
 
 ## Tools & Technologies
 
-* Python 3.8+
-* pandas, numpy
-* matplotlib, seaborn
-* Jupyter Notebook / VSCode
-* Power BI Desktop (for dashboard & DAX measures)
+- EXCEL
+- SQL
+- Python 3.8+  
+- Pandas, NumPy, Matplotlib, Seaborn   
+- Power BI Desktop (for dashboards & DAX measures)  
 
 ---
 
-## Key Steps & Methodology
+## Dataset
+
+The dataset contains client banking information across several tables or a single denormalized table:  
+
+- `Clients - Banking` (main profile/transaction table)  
+- `Banking Relationship`  
+- `Client-Banking`  
+- Lookup tables: `Gender`, `Investment Advisor`, `Period`  
+
+Common fields include: `Client ID`, `Estimated Income`, `Age`, `Nationality`, `Occupation`, `Bank Deposits`, `Checking Accounts`, `Saving Accounts`, `Credit Card Balance`, `Bank Loans`, `Business Lending`, `Joined Bank`, `Fee Structure`, `Properties Owned`, `Risk Weighting`.
+
+
+---
+
+
+---
+
+## Methodology
 
 ### Data Loading & Summary
 
-* Load CSV with `pd.read_csv()`
-* Examine shape, `df.info()`, and `df.describe()`
-* Check missingness and data types
+- Load CSV using `pd.read_csv()`  
+- Inspect shape, columns, missing values, and summary statistics  
 
 ### Data Cleaning & Feature Engineering
 
-* Convert date columns to `datetime` and create `Engagement Days` (time since joining)
-* Bin `Estimated Income` into `Income Band` (`Low`, `Medium`, `High`)
-* Map `Fee Structure` to a numeric `Processing Fees` rate for KPI calculations
-* Create aggregated metrics such as `Total Loan`, `Total Deposit`, `Total Fees` for dashboard consumption
+- Convert `Joined Bank` to `datetime` and calculate `Engagement Days`  
+- Bin `Estimated Income` into `Income Band` (`Low`, `Medium`, `High`)  
+- Map `Fee Structure` to numeric `Processing Fees`  
+- Aggregate metrics for dashboard KPIs (`Total Loan`, `Total Deposit`, `Total Fees`)  
 
 ### Univariate & Bivariate Analysis
 
-* Bar plots for categorical distributions (e.g., `Income Band`, `Nationality`, `Occupation`)
-* Histograms / KDE for numerical distributions (`Age`, `Estimated Income`, `Credit Card Balance`)
-* Countplots with `hue` to explore relationships between categories
+- Bar plots for categorical features  
+- Histograms/KDE for numerical features  
+- Countplots with `hue` to explore relationships  
 
 ### Correlation Analysis
 
-* Compute Pearson correlation matrix for numerical features: `Age`, `Estimated Income`, `Bank Deposits`, `Credit Card Balance`, `Bank Loans`, `Business Lending`, `Saving Accounts`, `Checking Accounts`.
-* Visualize with Seaborn heatmap to identify collinearity and candidate predictors for risk models.
+- Pearson correlation for numerical features (`Age`, `Estimated Income`, `Bank Deposits`, `Credit Card Balance`, `Bank Loans`, `Business Lending`, `Saving Accounts`, `Checking Accounts`)  
+- Visualize with Seaborn heatmap to identify collinearity  
 
-### Power BI Measures & KPIs
+### Power BI KPIs
 
-Example KPIs (DAX formulas used in Power BI):
-
-* **Total Clients**
-
-  ```dax
-  Total Clients = DISTINCTCOUNT('Clients - Banking'[Client ID])
-  ```
-
-* **Bank Deposit**
-
-  ```dax
-  Bank Deposit = SUM('Clients - Banking'[Bank Deposits])
-  ```
-
-* **Total Loan** (bank loan + business lending + credit card balance)
-
-  ```dax
-  Total Loan = [Bank Loan] + [Business Lending] + [Credit Cards Balance]
-  ```
-
-* **Processing Fees** (example mapping)
-
-  ```dax
-  // Set Processing Fees in Power Query or as a calculated column
-  Processing Fee = SWITCH('Clients - Banking'[Fee Structure],
-      "High", 0.05,
-      "Medium", 0.03,
-      "Low", 0.01,
-      0.02)
-
-  Total Fees = SUMX('Clients - Banking', [Total Loan] * 'Clients - Banking'[Processing Fee])
-  ```
-
-* **Engagement Days**
-
-  ```dax
-  Engagement Days = DATEDIFF('Clients - Banking'[Joined Bank], TODAY(), DAY)
-  ```
+- **Total Clients**: `DISTINCTCOUNT('Clients - Banking'[Client ID])`  
+- **Bank Deposit**: `SUM('Clients - Banking'[Bank Deposits])`  
+- **Total Loan**: `[Bank Loan] + [Business Lending] + [Credit Cards Balance]`  
+- **Processing Fees**: Mapped via `Fee Structure`  
+- **Engagement Days**: `DATEDIFF('Clients - Banking'[Joined Bank], TODAY(), DAY)`  
 
 ---
 
-## Example Python Code Snippets
 
-**Load data & basic summary**
-
-```python
-import pandas as pd
-
-df = pd.read_csv('data/bank_clients.csv')
-print(df.shape)
-print(df.info())
-print(df.describe())
+## How to Run
+```bash 
+python3 -m venv venv 
 ```
 
-**Feature engineering: Income Band & Engagement Days**
-
-```python
-# Income banding
-bins = [0, 100000, 300000, float('inf')]
-labels = ['Low', 'Medium', 'High']
-df['Income Band'] = pd.cut(df['Estimated Income'], bins=bins, labels=labels, include_lowest=True)
-
-# Convert join date and create engagement days
-df['Joined Bank'] = pd.to_datetime(df['Joined Bank'], errors='coerce')
-df['Engagement Days'] = (pd.Timestamp('today') - df['Joined Bank']).dt.days
-
-# Map processing fees
-fee_map = {'High': 0.05, 'Medium': 0.03, 'Low': 0.01}
-df['Processing Fees'] = df['Fee Structure'].map(fee_map).fillna(0.02)
-```
-
-**Correlation heatmap**
-
-```python
-import seaborn as sns
-import matplotlib.pyplot as plt
-
-num_cols = ['Age','Estimated Income','Bank Deposits','Saving Accounts',
-            'Checking Accounts','Credit Card Balance','Bank Loans','Business Lending']
-
-corr = df[num_cols].corr()
-plt.figure(figsize=(10,8))
-sns.heatmap(corr, annot=True, fmt='.2f', cmap='coolwarm')
-plt.title('Correlation matrix — numerical features')
-plt.show()
-```
-
----
-
-## How to run
-
-1. Create a virtual environment and install dependencies:
-
-```bash
-python -m venv venv
+```bash 
 source venv/bin/activate   # macOS / Linux
-venv\Scripts\activate     # Windows
-pip install -r requirements.txt
 ```
 
-2. Start Jupyter and open the notebooks:
+```bash 
+venv\Scripts\activate      # Windows 
+```
+
+```bash 
+pip install pandas numpy, matplotlib seaborn
+```
 
 ```bash
-jupyter notebook notebooks/01_data_loading_and_eda.ipynb
+jupyter notebook notebooks/eda.ipynb
 ```
 
-3. Open `powerbi/BankInsight_PowerBI.pbix` in Power BI Desktop to view example dashboards and DAX measures (file is a placeholder).
 
----
+## Insights & Business Impact
 
-## Notebook & Files
+* Deposits and savings behaviour are strongly correlated — high-balance clients often hold multiple account types.
 
-* `01_data_loading_and_eda.ipynb` — data ingestion, cleaning, EDA visualizations, correlation heatmap
-* `02_feature_engineering_and_kpis.ipynb` — engineered features, KPI computation, export-ready tables
-* `powerbi/` — folder for Power BI report and exported datasets
-* `data/` — raw CSV source files (sensitive data removed/anonymized)
+* Income and age moderately correlate with savings and loans — older, higher-income clients maintain larger balances.
 
----
+* Property ownership shows weak direct correlation with banking variables.
 
-## Insights & Business Impact (Key Findings)
+* Business lending moderately relates to bank loans — useful for profiling clients with business exposure.
 
-* **Deposits and saving behaviour**: strong positive correlations between deposit-related columns — customers with high balances often hold multiple account types.
-* **Income & age**: moderate correlation with savings and loan balances — older, higher-income customers hold larger balances and borrowing.
-* **Property ownership**: weak direct correlation with banking variables; this suggests property data alone is insufficient to explain lending risk.
-* **Business lending**: shows moderate relationship with bank loans — useful when profiling customers with business exposure.
-
-These insights help prioritize features for predictive modelling and guide the BI dashboards that risk managers use for triage.
-
-
+* These insights guide KPI selection and predictive modeling for credit risk assessment.
